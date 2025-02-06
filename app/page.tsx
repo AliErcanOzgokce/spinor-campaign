@@ -1,18 +1,16 @@
 'use client';
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ParticlesContainer as Particles } from "@/components/Particles";
 import RiskSlider from "@/components/RiskSlider";
-import TradeSimulator from "@/components/TradeSimulator";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-purple-950 text-white overflow-hidden">
+    <div className="relative min-h-screen max-h-[1080px] bg-gradient-to-b from-black via-gray-900 to-purple-950 text-white overflow-hidden">
       <Particles className="absolute inset-0" />
       
       {/* Glass morphism container */}
-      <div className="relative container mx-auto px-4 py-16">
+      <div className="relative container mx-auto px-4 py-16 mt-12 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Section - Main Content */}
           <motion.div 

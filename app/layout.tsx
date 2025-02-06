@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from 'next/font/google';
+import { Space_Grotesk, Syne } from 'next/font/google';
 import "./globals.css";
+import Navbar from '../components/Navbar';
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-space-grotesk',
+});
+
+const syne = Syne({
+  subsets: ['latin'],
+  variable: '--font-syne',
 });
 
 export const metadata: Metadata = {
@@ -20,7 +25,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} font-sans antialiased`}>
+      <body className={`${spaceGrotesk.variable} ${syne.variable} font-sans antialiased`}>
+        <Navbar />
         {children}
       </body>
     </html>

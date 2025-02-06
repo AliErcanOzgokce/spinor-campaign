@@ -32,10 +32,12 @@ const tokens = [
   },
 ];
 
+type Duration = "1 Month" | "3 Months" | "6 Months" | "1 Year";
+
 export default function RiskSlider() {
   const [risk, setRisk] = useState(2);
   const [amount, setAmount] = useState(1000);
-  const [duration, setDuration] = useState("3 Months");
+  const [duration, setDuration] = useState<Duration>("3 Months");
   const [projectedReturn, setProjectedReturn] = useState(0);
   const [selectedToken, setSelectedToken] = useState(tokens[0]);
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
@@ -50,11 +52,11 @@ export default function RiskSlider() {
   ];
 
   const durations = ["1 Month", "3 Months", "6 Months", "1 Year"];
-  const durationMultiplier = {
-    "1 Month": 1 / 12,
+  const durationMultiplier: Record<Duration, number> = {
+    "1 Month": 1/12,
     "3 Months": 0.25,
     "6 Months": 0.5,
-    "1 Year": 1,
+    "1 Year": 1
   };
 
   const currentLevel = riskLevels[risk - 1];
@@ -199,7 +201,7 @@ export default function RiskSlider() {
             {durations.map((d) => (
               <button
                 key={d}
-                onClick={() => setDuration(d)}
+                onClick={() => setDuration(d as Duration)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                   duration === d
                     ? "bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-pink-300 shadow-lg"
