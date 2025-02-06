@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { ParticlesContainer as Particles } from "@/components/Particles";
 import RiskSlider from "@/components/RiskSlider";
+import Image from "next/image";
+import SubscribeForm from '@/components/SubscribeForm';
 
 export default function Home() {
   return (
@@ -44,34 +46,41 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Enhanced Email Form */}
-            <motion.form 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="relative group"
-            >
-              <div className="relative flex items-center">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full px-6 py-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-purple-500 transition-all duration-300 outline-none text-lg"
-                  required
+            {/* Eski form yerine yeni SubscribeForm */}
+            <SubscribeForm />
+
+            {/* Built on top of section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <p className="text-base font-medium bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent">
+                  BUILT ON TOP OF
+                </p>
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-purple-500/20 to-transparent" />
+              </div>
+              <div className="flex items-center gap-8">
+                <Image
+                  src="/celestia.png"
+                  alt="Celestia"
+                  width={140}
+                  height={28}
+                  className="opacity-60 hover:opacity-100 transition-opacity duration-300"
                 />
-                <button
-                  type="submit"
-                  className="absolute right-2 px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  Join Waitlist
-                </button>
+                <Image
+                  src="/encode.png"
+                  alt="Encode"
+                  width={80}
+                  height={15}
+                  className="opacity-60 hover:opacity-100 transition-opacity duration-300 -translate-y-1"
+                />
+                <Image
+                  src="/gelato.png"
+                  alt="Gelato"
+                  width={120}
+                  height={28}
+                  className="opacity-60 hover:opacity-100 transition-opacity duration-300"
+                />
               </div>
-              <div className="mt-3 flex items-center gap-2 text-sm text-gray-400">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Early access to beta features</span>
-              </div>
-            </motion.form>
+            </div>
           </motion.div>
 
           {/* Right Section - Interactive Demo */}
@@ -82,10 +91,10 @@ export default function Home() {
             className="relative"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-3xl blur-3xl" />
-            <div className="relative space-y-8 p-8 backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl hover:border-purple-500/30 transition-all duration-300">
+            
               <RiskSlider />
 
-            </div>
+            
           </motion.div>
         </div>
       </div>
