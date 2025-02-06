@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Shield, DollarSign, TrendingUp, ChevronDown, RefreshCw } from "lucide-react";
 import Image from "next/image";
 
-const COIN_API_KEY = '93413148-dd1e-4dbf-8efb-9d1d6f5fd28f';
+const COIN_API_KEY = process.env.COIN_API_KEY;
 const COIN_API_SYMBOLS = {
   'ETH': 'ETH',
   'TIA': 'TIA',
@@ -70,7 +70,7 @@ export default function RiskSlider() {
           fetch(`https://rest.coinapi.io/v1/exchangerate/${apiSymbol}/USD`, {
             headers: {
               'Accept': 'application/json',
-              'X-CoinAPI-Key': COIN_API_KEY
+              'X-CoinAPI-Key': COIN_API_KEY || ''
             }
           }).then(res => res.json())
         );
