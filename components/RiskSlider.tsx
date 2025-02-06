@@ -1,14 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Shield, DollarSign, TrendingUp, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, DollarSign, TrendingUp, ChevronDown, RefreshCw } from "lucide-react";
 import Image from "next/image";
 
+const COIN_API_KEY = '93413148-dd1e-4dbf-8efb-9d1d6f5fd28f';
+const COIN_API_SYMBOLS = {
+  'ETH': 'ETH',
+  'TIA': 'TIA',
+};
+
 const tokens = [
-  { symbol: "TIA", name: "Celestia", logo: "/assets/tia.png" },
-  { symbol: "ETH", name: "Ethereum", logo: "/assets/eth.png" },
-  { symbol: "USDC", name: "USD Coin", logo: "/assets/usdc.png" },
+  { 
+    symbol: "TIA", 
+    name: "Celestia", 
+    logo: "/assets/tia.png",
+    price: null
+  },
+  { 
+    symbol: "ETH", 
+    name: "Ethereum", 
+    logo: "/assets/eth.png",
+    price: null
+  },
+  { 
+    symbol: "USDC", 
+    name: "USD Coin", 
+    logo: "/assets/usdc.png",
+    price: 1
+  },
 ];
 
 export default function RiskSlider() {
@@ -18,6 +39,8 @@ export default function RiskSlider() {
   const [projectedReturn, setProjectedReturn] = useState(0);
   const [selectedToken, setSelectedToken] = useState(tokens[0]);
   const [isTokenListOpen, setIsTokenListOpen] = useState(false);
+  const [prices, setPrices] = useState<Record<string, number>>({});
+  const [isLoadingPrices, setIsLoadingPrices] = useState(false);
 
   const riskLevels = [
     { value: 1, apy: 0.05, label: "Conservative" },
@@ -37,6 +60,44 @@ export default function RiskSlider() {
   const currentLevel = riskLevels[risk - 1];
 
   useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        setIsLoadingPrices(true);
+        
+        const pricePromises = Object.entries(COIN_API_SYMBOLS).map(([symbol, apiSymbol]) =>
+          fetch(`https://rest.coinapi.io/v1/exchangerate/${apiSymbol}/USD`, {
+            headers: {
+              'Accept': 'application/json',
+              'X-CoinAPI-Key': COIN_API_KEY
+            }
+          }).then(res => res.json())
+        );
+
+        const results = await Promise.all(pricePromises);
+        
+        const newPrices = results.reduce((acc, result, index) => {
+          const symbol = Object.keys(COIN_API_SYMBOLS)[index];
+          acc[symbol] = result.rate;
+          return acc;
+        }, {} as Record<string, number>);
+
+        setPrices({
+          ...newPrices,
+          USDC: 1
+        });
+      } catch (error) {
+        console.error('Error fetching prices:', error);
+      } finally {
+        setIsLoadingPrices(false);
+      }
+    };
+
+    fetchPrices();
+    const interval = setInterval(fetchPrices, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     const apy = currentLevel.apy;
     const years = durationMultiplier[duration];
     const projected = amount * (1 + apy * years);
@@ -47,6 +108,13 @@ export default function RiskSlider() {
     if (symbol === "USDC") return `$${value.toFixed(2)}`;
     return `${value.toFixed(4)} ${symbol}`;
   };
+
+  const getUSDValue = (value: number, token: typeof tokens[0]) => {
+    if (token.symbol === "USDC") return value;
+    return value * (prices[token.symbol] || 0);
+  };
+
+  const projectedReturnUSD = getUSDValue(projectedReturn, selectedToken);
 
   return (
     <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5 border border-white/5">
@@ -197,10 +265,36 @@ export default function RiskSlider() {
                 Projected Return
               </div>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               <div className="text-4xl font-bold text-white">
                 {formatReturn(projectedReturn, selectedToken.symbol)}
               </div>
+              {selectedToken.symbol !== "USDC" && (
+                <AnimatePresence mode="wait">
+                  {isLoadingPrices ? (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center justify-center gap-2 text-lg text-emerald-400/90"
+                    >
+                      <RefreshCw size={16} className="animate-spin" />
+                      <span>Updating price...</span>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="price"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="text-lg text-emerald-400/90"
+                    >
+                      ≈ ${projectedReturnUSD.toFixed(2)}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              )}
               <div className="text-sm text-emerald-400/70">
                 {duration} @ {(currentLevel.apy * 100).toFixed(1)}% APY
               </div>
