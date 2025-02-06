@@ -22,6 +22,9 @@ export default {
       animation: {
         shine: 'shine 1s linear infinite',
       },
+      fontFamily: {
+        sans: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
+      },
     },
   },
   plugins: [],

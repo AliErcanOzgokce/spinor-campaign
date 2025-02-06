@@ -86,7 +86,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-3xl blur-3xl" />
             <div className="relative space-y-8 p-8 backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl hover:border-purple-500/30 transition-all duration-300">
               <RiskSlider />
-              {/* <TradeSimulator /> */}
+
             </div>
           </motion.div>
         </div>
