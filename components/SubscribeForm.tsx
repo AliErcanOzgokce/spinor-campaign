@@ -46,69 +46,129 @@ export default function SubscribeForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
     >
-      <div className="relative flex items-center">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          disabled={status === 'loading' || status === 'success'}
-          className="w-full px-6 py-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-purple-500 transition-all duration-300 outline-none text-lg disabled:opacity-50"
-          required
-        />
-        <AnimatePresence mode="wait">
-          {status === 'idle' && (
-            <motion.button
-              key="submit"
-              type="submit"
-              className="absolute right-2 px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              Join Waitlist
-            </motion.button>
-          )}
-          
-          {status === 'loading' && (
-            <motion.div
-              key="loading"
-              className="absolute right-2 px-6 py-2.5 bg-purple-600/50 text-white rounded-lg flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Joining...</span>
-            </motion.div>
-          )}
+      <div className="relative flex flex-col sm:flex-row gap-2 sm:gap-0">
+        <div className="relative w-full">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            disabled={status === 'loading' || status === 'success'}
+            className="w-full px-4 sm:px-6 py-3 sm:py-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-purple-500 transition-all duration-300 outline-none text-base sm:text-lg disabled:opacity-50"
+            required
+          />
+          <div className="hidden sm:block absolute right-2 top-1/2 -translate-y-1/2">
+            <AnimatePresence mode="wait">
+              {status === 'idle' && (
+                <motion.button
+                  key="submit"
+                  type="submit"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Join Waitlist
+                </motion.button>
+              )}
+              
+              {status === 'loading' && (
+                <motion.div
+                  key="loading"
+                  className="px-6 py-2.5 bg-purple-600/50 text-white rounded-lg flex items-center gap-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Joining...</span>
+                </motion.div>
+              )}
 
-          {status === 'success' && (
-            <motion.div
-              key="success"
-              className="absolute right-2 px-6 py-2.5 bg-emerald-600/50 text-white rounded-lg flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Welcome aboard!</span>
-            </motion.div>
-          )}
+              {status === 'success' && (
+                <motion.div
+                  key="success"
+                  className="px-6 py-2.5 bg-emerald-600/50 text-white rounded-lg flex items-center gap-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Welcome aboard!</span>
+                </motion.div>
+              )}
 
-          {status === 'error' && (
-            <motion.div
-              key="error"
-              className="absolute right-2 px-6 py-2.5 bg-red-600/50 text-white rounded-lg flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <XCircle className="w-4 h-4" />
-              <span>{errorMessage}</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {status === 'error' && (
+                <motion.div
+                  key="error"
+                  className="px-6 py-2.5 bg-red-600/50 text-white rounded-lg flex items-center gap-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <XCircle className="w-4 h-4" />
+                  <span>{errorMessage}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Mobile Button */}
+        <div className="sm:hidden">
+          <AnimatePresence mode="wait">
+            {status === 'idle' && (
+              <motion.button
+                key="submit"
+                type="submit"
+                className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all duration-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                Join Waitlist
+              </motion.button>
+            )}
+            
+            {/* Mobile status messages */}
+            {status === 'loading' && (
+              <motion.div
+                key="loading"
+                className="w-full px-4 py-3 bg-purple-600/50 text-white rounded-xl flex items-center justify-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Joining...</span>
+              </motion.div>
+            )}
+            {status === 'success' && (
+              <motion.div
+                key="success"
+                className="w-full px-4 py-3 bg-emerald-600/50 text-white rounded-xl flex items-center justify-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Welcome aboard!</span>
+              </motion.div>
+            )}
+            {status === 'error' && (
+              <motion.div
+                key="error"
+                className="w-full px-4 py-3 bg-red-600/50 text-white rounded-xl flex items-center justify-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <XCircle className="w-4 h-4" />
+                <span>{errorMessage}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
       <div className="mt-3 flex items-center gap-2 text-sm text-gray-400">

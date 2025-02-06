@@ -22,32 +22,38 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
-      <div className="relative mx-auto px-6 py-2 max-w-6xl">
+      <div className="absolute inset-0 bg-black/5 backdrop-blur-md" />
+      <div className="relative mx-auto px-4 sm:px-6 py-2 max-w-6xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <Image
-              src="/logo.png"
-              alt="Spinor"
-              width={32}
-              height={32}
-              className="w-8 h-8"
-            />
-            <span className="text-2xl font-bold text-white font-display">
-              spinor
-            </span>
-          </Link>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="relative">
+
+              <Link href="/" className="relative flex items-center gap-2 sm:gap-3 group">
+                <Image
+                  src="/logo.png"
+                  alt="Spinor"
+                  width={32}
+                  height={32}
+                  className="w-7 h-7 sm:w-8 sm:h-8"
+                />
+                <span className="text-xl sm:text-2xl font-bold text-white font-display">
+                  spinor
+                </span>
+              </Link>
+            </div>
+          </div>
 
           {/* Navigation */}
-          <div className="flex items-center gap-6 backdrop-blur-md bg-black/5 rounded-full px-2">
+          <div className="flex items-center gap-3 sm:gap-6">
             <div className="relative">
               <button
-                className="flex items-center gap-2 px-4 py-2 text-sm text-white/70 hover:text-white transition-colors"
+                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-sm text-white/70 hover:text-white transition-colors"
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
               >
-                <FileText size={18} />
-                <span>Docs</span>
+                <FileText size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <span className="hidden sm:inline">Docs</span>
               </button>
 
               {/* Coming Soon Tooltip */}
@@ -66,10 +72,10 @@ export default function Navbar() {
               href="https://twitter.com/spinorfi"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-white/70 hover:text-white transition-colors"
+              className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-sm text-white/70 hover:text-white transition-colors"
             >
-              <XIcon className="translate-y-[1px]" />
-              <span>Twitter</span>
+              <XIcon className="translate-y-[1px] sm:w-[18px] sm:h-[18px]" />
+              <span className="hidden sm:inline">Twitter</span>
             </Link>
           </div>
         </div>

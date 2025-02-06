@@ -119,11 +119,11 @@ export default function RiskSlider() {
   const projectedReturnUSD = getUSDValue(projectedReturn, selectedToken);
 
   return (
-    <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5 border border-white/5">
-      <div className="space-y-5">
+    <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-3 sm:p-5 border border-white/5">
+      <div className="space-y-4 sm:space-y-5">
         {/* Amount Input with Token Selector */}
         <div className="space-y-2">
-          <label className="text-base font-medium text-white">
+          <label className="text-sm sm:text-base font-medium text-white">
             Investment Amount
           </label>
           <div className="relative group">
@@ -133,7 +133,7 @@ export default function RiskSlider() {
                 type="number"
                 value={amount || ''}
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full bg-white/5 border border-white/10 rounded-l-xl py-3 px-4 text-lg text-white font-medium focus:outline-none focus:border-pink-500/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-full bg-white/5 border border-white/10 rounded-l-xl py-2 sm:py-3 px-3 sm:px-4 text-base sm:text-lg text-white font-medium focus:outline-none focus:border-pink-500/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 placeholder="Enter amount"
               />
               <div className="relative">
@@ -194,15 +194,15 @@ export default function RiskSlider() {
 
         {/* Duration Pills */}
         <div className="space-y-2">
-          <label className="text-base font-medium text-white">
+          <label className="text-sm sm:text-base font-medium text-white">
             Investment Period
           </label>
-          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+          <div className="flex gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
             {durations.map((d) => (
               <button
                 key={d}
                 onClick={() => setDuration(d as Duration)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                   duration === d
                     ? "bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-pink-300 shadow-lg"
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
