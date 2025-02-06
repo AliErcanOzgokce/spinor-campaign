@@ -65,28 +65,12 @@ export default function RiskSlider() {
     const fetchPrices = async () => {
       try {
         setIsLoadingPrices(true);
+        const res = await fetch('/api/prices');
+        const data = await res.json();
         
-        const pricePromises = Object.entries(COIN_API_SYMBOLS).map(([symbol, apiSymbol]) =>
-          fetch(`https://rest.coinapi.io/v1/exchangerate/${apiSymbol}/USD`, {
-            headers: {
-              'Accept': 'application/json',
-              'X-CoinAPI-Key': COIN_API_KEY || ''
-            }
-          }).then(res => res.json())
-        );
-
-        const results = await Promise.all(pricePromises);
+        if (!res.ok) throw new Error(data.error);
         
-        const newPrices = results.reduce((acc, result, index) => {
-          const symbol = Object.keys(COIN_API_SYMBOLS)[index];
-          acc[symbol] = result.rate;
-          return acc;
-        }, {} as Record<string, number>);
-
-        setPrices({
-          ...newPrices,
-          USDC: 1
-        });
+        setPrices(data);
       } catch (error) {
         console.error('Error fetching prices:', error);
       } finally {
